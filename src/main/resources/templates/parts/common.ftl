@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <title>parser</title>
         <link rel="stylesheet" href="/static/style.css">
+        <link href="/static/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->

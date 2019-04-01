@@ -6,13 +6,13 @@
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-pause="false">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="w-100" src="/img/public/headhunter.PNG">
+                <img class="w-100" src="img/public/headhunter.PNG">
             </div>
             <div class="carousel-item">
-                <img class="w-100" src="/img/public/superjob.PNG">
+                <img class="w-100" src="img/public/superjob.PNG">
             </div>
             <div class="carousel-item">
-                <img class="w-100" src="/img/public/avito.PNG">
+                <img class="w-100" src="img/public/avito.PNG">
             </div>
         </div>
     </div>

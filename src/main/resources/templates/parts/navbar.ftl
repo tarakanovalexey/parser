@@ -16,8 +16,13 @@
             </#if>
             <#if name != "Гость">
             <li class="nav-item">
-                <a class="nav-link" href="/main">Парсер</a>
+                <a class="nav-link" href="/main">Сообщения</a>
             </li>
+            </#if>
+            <#if name != "Гость">
+                <li class="nav-item">
+                    <a class="nav-link" href="/parser">Парсер резюме</a>
+                </li>
             </#if>
             <#if isAdmin>
             <li class="nav-item">
