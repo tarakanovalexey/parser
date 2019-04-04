@@ -15,7 +15,7 @@
     </div>
     <br>
     <br>
-    <form action="/parseit" method="post">
+    <form action="/saveresumes" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
     <table class="table">
         <thead>
@@ -25,12 +25,12 @@
         </thead>
         <thead class="thead-light">
         <tr>
-            <th scope="col" colspan="2" class="text-center">Возраст</th>
+            <th scope="col" colspan="2" class="text-center">Ключевые слова</th>
         </tr>
         </thead>
+
         <tr>
-            <th scope="col"><input class="form-control" type="text" maxlength="2" name="ageFrom" placeholder="Возраст от" /></th>
-            <th scope="col"><input class="form-control" type="text" maxlength="2" name="ageTo" placeholder="Возраст до" /></th>
+            <th scope="col" colspan="2"><input class="form-control" type="text" maxlength="45" name="keyword" placeholder="Ключевое слово" /></th>
         </tr>
         <thead class="thead-light">
         <tr>
@@ -43,17 +43,27 @@
         </tr>
         <thead class="thead-light">
         <tr>
+            <th scope="col" colspan="2" class="text-center">Возраст</th>
+        </tr>
+        </thead>
+        <tr>
+            <th scope="col"><input class="form-control" type="text" maxlength="2" name="ageFrom" placeholder="Возраст от" /></th>
+            <th scope="col"><input class="form-control" type="text" maxlength="2" name="ageTo" placeholder="Возраст до" /></th>
+        </tr>
+
+        <thead class="thead-light">
+        <tr>
             <th scope="col" colspan="2" class="text-center">Регион</th>
         </tr>
         </thead>
         <tr>
-        <th scope="col" colspan="2">
-            <select class="custom-select" name="city">
-            <option selected value="1">Москва</option>
-            <option value="2">Санкт-Петербург</option>
-            <option value="53">Краснодар</option>
-            </select>
-        </th>
+            <th scope="col" colspan="2">
+                <select class="custom-select" name="city">
+                    <option selected value="1">Москва</option>
+                    <option value="2">Санкт-Петербург</option>
+                    <option value="53">Краснодар</option>
+                </select>
+            </th>
         </tr>
         <tr>
             <th scope="col" colspan="2" class="text-center"><button type="submit" class="btn btn-outline-primary" style="width: 8rem;">Подтвердить</button></th>
@@ -61,44 +71,49 @@
     </table>
 
     </form>
+
     <div class="card-columns">
-    <#list urls as message>
-        <div class="card my-3">
-            <div class="card-header">
-                <span>Запрос ${message.getDate()?string('dd.MM.yyyy HH:mm:ss')}</span>
-            </div>
-            <div class="m-2">
-            <span>HH.ru: ${message.getFoundResumes()}</span>
-                <div class="text-muted" style="font-size: 10px;">
-                Возраст
-                <span> от ${message.getAgeFrom()}</span>
-                <span> до ${message.getAgeTo()}</span>
-                <br>
-                Зарплата
-                <span> от ${message.getSalaryFrom()}</span>
-                <span> до ${message.getSalaryTo()}</span>
-                <br>
-                Регион
-                <span> ${message.getCity()}</span>
+        <#list urls as message>
+            <div class="card my-3">
+                <div class="card-header">
+                    <span>Запрос ${message.getDate()?string('dd.MM.yyyy HH:mm:ss')}</span>
+                </div>
+                <div class="card-body">
+                    <div class="text-muted" style="font-size: 10px;">
+                        <span>total: </span>
+                        <br>
+                        <span>searchid: ${message.getId()}</span>
+                        <br>
+                        Возраст
+                        <span> от ${message.getAgeFrom()}</span>
+                        <span> до ${message.getAgeTo()}</span>
+                        <br>
+                        Зарплата
+                        <span> от ${message.getSalaryFrom()}</span>
+                        <span> до ${message.getSalaryTo()}</span>
+                        <br>
+                        Регион
+                        <span> ${message.getCity()}</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="/saveexcel">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                        <input type="hidden" name="search_id" value="${message.getId()}"/>
+                        <button class="btn btn-outline-success m-2" style="width: 8rem;">Экспорт</button>
+                    </form>
+                    <form method="post" action="/delete">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                        <input type="hidden" name="search_id" value="${message.getId()}"/>
+                        <button class="btn btn-outline-danger m-2" type="submit" style="width: 8rem;">Удалить</button>
+                    </form>
                 </div>
             </div>
-        <div class="card-footer text-muted">
-            <form method="post" action="/saveexcel">
-                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <input type="hidden" name="thisid" value="${message.getId()}"/>
-                <button class="btn btn-outline-success m-2" style="width: 8rem;">Excel</button>
-            </form>
-            <form method="post" action="/delete">
-                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <input type="hidden" name="thisid" value="${message.getId()}"/>
-                <button class="btn btn-outline-danger m-2" type="submit" style="width: 8rem;">Удалить</button>
-            </form>
-        </div>
-        </div>
     <#else>
-    <div class="m-2">
-        У вас нет истории запросов
-    </div>
+        <div class="m-2">
+            У вас нет истории запросов
+        </div>
     </#list>
     </div>
+
 </@c.page>

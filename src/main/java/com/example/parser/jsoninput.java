@@ -1,13 +1,13 @@
 package com.example.parser;
 
 public class jsoninput {
-    private String name;
+    private String id_user;
 
-    public String getName() {
-        return name;
+    public String getId_user() {
+        return id_user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
     }
 }

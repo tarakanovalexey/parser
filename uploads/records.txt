@@ -1,32 +1,52 @@
-Token SuperJob        v3.h.3642781.04a4314fbdc985b37ac3d2734b0b273adba34243.add92a6ef672d3b0dfd2bfa42962538c9f83d462
+String keyword = "java";
+        int payment_from = 45000;
+        int payment_to = 100000;
+        int age_from = 23;
+        int age_to = 30;
+        int t = 4;
+        short no_agreement = 1;
+        int page = 0;
 
-Хз как пользоваться, запрос по коду:
-https://api.superjob.ru/2.0/oauth2/access_token/
-?code=1036
-&redirect_uri=http%3A%2F%2Fwww.example.ru
-&client_id=1036
-&client_secret=v3.h.3642781.04a4314fbdc985b37ac3d2734b0b273adba34243.add92a6ef672d3b0dfd2bfa42962538c9f83d462
+        String app_key="v3.h.3642781.04a4314fbdc985b37ac3d2734b0b273adba34243.add92a6ef672d3b0dfd2bfa42962538c9f83d462";
 
-Запрос по логину и паролю:
-https://api.superjob.ru/2.0/oauth2/password/
-?login=3642781
-&password=5721vd
-&client_id=1036
-&client_secret=v3.h.3642781.04a4314fbdc985b37ac3d2734b0b273adba34243.add92a6ef672d3b0dfd2bfa42962538c9f83d462
+        String url = "https://api.superjob.ru/2.0/resumes/?app_key="+app_key +
+                "&keywords[0][keys]="+keyword+
+                "&payment_from="+payment_from+
+                "&payment_to="+payment_to+
+                "&age_from="+age_from+
+                "&age_to="+age_to+
+                "&t="+t+
+                "&no_agreement="+no_agreement+
+                "&page="+page+
+                "&count=100";
 
-Получены коды авторизации:
-access_token": "v3.h.3642781.97a700cce3c14e1e3693451b699161b04901a4b3.26f2bcad51ae2fcab07245cae7118e473c62886f",
-"refresh_token": "v3.h.3642781.55d10f46597aa487c6a93b22d4707b7d628db86c.cff17717aa3139c3a6aa128fcb338f47eaeb804c",
-"ttl": 1556800224,
-"expires_in": 2678400,
-"token_type": "bearer"
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream(),"UTF-8"));
+        StringBuffer response = new StringBuffer();
+        JSONObject objectJson = new JSONObject(in.readLine());
+        JSONObject objJS;
+        int total = Integer.parseInt(objectJson.get("total").toString());
+        System.out.println("Всего найдено вакансий по запросу: "+total);
 
-{
+            for (int i = 0; i < objectJson.getJSONArray("objects").length(); i++) {
+                objJS = objectJson.getJSONArray("objects").getJSONObject(i);
+                System.out.println("UserID: " + objJS.getLong("id_user")
+                        + ", должность: " + objJS.getString("profession")
+                        + ", желаемая зп: " + objJS.getInt("payment")
+                        + ", стаж: " + objJS.getInt("experience_month_count") + " мес."
+                        + ", возраст: " + objJS.getInt("age")
+                        + ", url: " + objJS.getString("link")
+                );
+            }
+            try {
+                Thread.currentThread().sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-    "access_token": "v3.h.3642781.97a700cce3c14e1e3693451b699161b04901a4b3.26f2bcad51ae2fcab07245cae7118e473c62886f",
-    "refresh_token": "v3.h.3642781.55d10f46597aa487c6a93b22d4707b7d628db86c.cff17717aa3139c3a6aa128fcb338f47eaeb804c",
-    "ttl": 1556800224,
-    "expires_in": 2658719,
-    "token_type": "bearer"
-
-}
+        in.close();

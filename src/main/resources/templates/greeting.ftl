@@ -1,19 +1,18 @@
+<#include "parts/security.ftl">
 <#import "parts/common.ftl" as c>
 
+
 <@c.page>
-<h5>Добро пожаловать!</h5>
-    <div>Это страница веб-приложения с возможностью выгрузки результата запроса в excel</div>
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-pause="false">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="w-100" src="img/public/headhunter.PNG">
-            </div>
-            <div class="carousel-item">
-                <img class="w-100" src="img/public/superjob.PNG">
-            </div>
-            <div class="carousel-item">
-                <img class="w-100" src="img/public/avito.PNG">
-            </div>
-        </div>
-    </div>
+    <#if name = "Гость">
+<h5>Добро пожаловать, Гость!</h5>
+    <div>Это страница парсера с возможностью выгрузки результата запроса в excel.</div>
+        <div>Для продолжения вам необходимо
+            <a href="/login">авторизоваться</a> или
+            <a href="/registration">зарегистрироваться</a>.</div>
+        <#else>
+            <h5>Добро пожаловать, ${name}!</h5>
+            <div>Это страница парсера с возможностью выгрузки результата запроса в excel.</div>
+<div>Пожалуйста, воспользуйтесь меню для навигации.</div>
+  </#if>
+
 </@c.page>

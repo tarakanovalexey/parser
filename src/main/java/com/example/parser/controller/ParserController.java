@@ -1,7 +1,9 @@
 package com.example.parser.controller;
 
 import com.example.parser.domain.ParseURL;
+import com.example.parser.domain.Resumes;
 import com.example.parser.domain.User;
+import com.example.parser.repos.ResumesRepo;
 import com.example.parser.repos.URLRepo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
@@ -20,6 +24,9 @@ import java.util.Map;
 public class ParserController {
     @Autowired
     private URLRepo urlRepo;
+
+    @Autowired
+    private ResumesRepo resumesRepo;
 
     @GetMapping("/parser")
     public String webparser(
@@ -98,18 +105,38 @@ public class ParserController {
 
     @PostMapping("/delete")
     public String delete(
-            @RequestParam ParseURL thisid
+            @RequestParam Long search_id,
+            Map<String, Object> model
     ){
-        urlRepo.delete(thisid);
+        Iterable<Resumes> urls = resumesRepo.findBySearchId(search_id);
+        model.put("urls", urls);
+        resumesRepo.deleteAll(urls);
+        urlRepo.deleteById(search_id);
 
     return "redirect:/parser";
     }
 
     @PostMapping("/saveexcel")
     public String saveexcel(
-            @RequestParam ParseURL thisid
+            @RequestParam Long search_id,
+            Map<String, Object> model
     ){
 
+      //  "SELECT * FROM resumes WHERE search_id ="+thisid;
+
+        Iterable<Resumes> urls = resumesRepo.findBySearchId(search_id);
+
+        model.put("urls", urls);
+        return "resumeslist";
+    }
+
+    @PostMapping("/excel")
+    public String excel(
+            @RequestParam Long search_id,
+            Map<String, Object> model
+    ) {
+        Iterable<Resumes> urls = resumesRepo.findBySearchId(search_id);
+//В процессе, ещё не сделал
         return "redirect:/parser";
     }
 }
