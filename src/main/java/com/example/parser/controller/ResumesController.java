@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class ResumesController {
     Map<String, Object> model
     ) throws IOException {
         //superjob
-        keyword = keyword.replaceAll(" ", "+");
+        keyword = URLEncoder.encode(keyword.replaceAll(" ", "+"),"UTF-8");
         int page = 0;
         boolean more = true;
         ParseURL geturl = new ParseURL();
@@ -69,7 +70,6 @@ public class ResumesController {
             System.out.println("Response Code : " + responseCode);*/
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream(), "UTF-8"));
-            StringBuffer response = new StringBuffer();
             JSONObject objectJson = new JSONObject(in.readLine());
             JSONObject objJS;
             int total = Integer.parseInt(objectJson.get("total").toString());

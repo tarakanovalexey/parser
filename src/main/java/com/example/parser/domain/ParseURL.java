@@ -6,7 +6,7 @@ import java.util.Date;
 @Entity
 public class ParseURL {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
@@ -28,7 +28,7 @@ public class ParseURL {
 
     public String SuperJobURLByPage(int page){
         String app_key = "v3.h.3642781.04a4314fbdc985b37ac3d2734b0b273adba34243.add92a6ef672d3b0dfd2bfa42962538c9f83d462";
-        String url = "https://api.superjob.ru/2.0/resumes/?app_key=" + app_key +
+        return "https://api.superjob.ru/2.0/resumes/?app_key=" + app_key +
                 "&keyword=" + keyword +
                 "&payment_from=" + salaryFrom +
                 "&payment_to=" + salaryTo +
@@ -39,7 +39,6 @@ public class ParseURL {
                 "&page=" + page +
                 "&count=100" +
                 "&published=1";
-        return url;
     }
 
     public ParseURL(String ageFrom, String ageTo, String salaryFrom, String salaryTo, String city) {

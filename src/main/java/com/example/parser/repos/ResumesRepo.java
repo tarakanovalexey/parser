@@ -7,6 +7,5 @@ import java.util.List;
 
 
 public interface ResumesRepo extends JpaRepository<Resumes, Long> {
-    List<Resumes> findBySearchId(Long userId);
-    List<Resumes> deleteResumesBySearchIdEquals(Long searchId);
+    List<Resumes> findBySearchId(Long searchId);
 }
